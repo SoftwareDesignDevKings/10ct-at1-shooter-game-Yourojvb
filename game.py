@@ -61,7 +61,7 @@ class Game:
         self.reset_game()
 
 
-    def reset_game(self):
+    def reset_game(self): #so when game restarts; player dosent keep any previous abilities
         self.player = Player(app.WIDTH // 2, app.HEIGHT // 2, self.assets, shoot_delay=self.shoot_delay)
         self.enemies = []
         self.enemy_spawn_timer = 60
@@ -127,7 +127,7 @@ class Game:
                             self.space_held = True
                             self.space_held_start_time = pygame.time.get_ticks()
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE: # stops when space is released
                     self.space_held = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  
@@ -148,14 +148,13 @@ class Game:
         self.check_bullet_enemy_collisions()
         self.check_player_coin_collisions()
         self.increase_difficulty()
-        #self.check_shoot_delay()
         current_time = pygame.time.get_ticks()
-        if self.space_held and current_time - self.space_held_start_time >= self.shoot_delay:
+        if self.space_held and current_time - self.space_held_start_time >= self.shoot_delay: #constant update on status of the space button
             if current_time - self.last_shot_time >= self.shoot_delay:
                 nearest_enemy = self.find_nearest_enemy()
                 if nearest_enemy:
                     self.player.shoot_toward_enemy(nearest_enemy)
-                self.last_shot_time = current_time
+                self.last_shot_time = current_time # assigns last_shot_time with current time
                 
 
         if self.player.health <= 0:
@@ -180,25 +179,21 @@ class Game:
         health_img = self.assets["health"][hp]
         self.screen.blit(health_img, (10, 10))
 
-        xp_text_surf = self.font_small.render(f"XP: {self.player.xp}", True, (255, 255, 255))
-        self.screen.blit(xp_text_surf, (10, 70)) #blit to summon it
+        xp_text_surf = self.font_small.render(f"XP: {self.player.xp}", True, (255, 255, 255)) # the text and colours is assigned to xp_text_surf
+        self.screen.blit(xp_text_surf, (10, 70)) #blit to summon it onto the screen as the game starts
 
-        level_up_surf = self.font_small.render(f"Lvl: {self.player.level}", True , (200, 100, 50))
-        self.screen.blit(level_up_surf, (10, 50))
+        level_up_surf = self.font_small.render(f"Lvl: {self.player.level}", True , (200, 100, 50))# text and colours is assigned to level_up_surf
+        self.screen.blit(level_up_surf, (10, 50))#blit to summon it onto the screen as the game starts
 
-        level_up_rect = self.font_small.render(f"Req Lvl: {self.player.xp_to_next_level}", True, (50, 100,150))
+        level_up_rect = self.font_small.render(f"Req Lvl: {self.player.xp_to_next_level}", True, (50, 100,150))# text and colours assigned to level_up_rect
         self.screen.blit(level_up_rect, (10, 90))
 
         for enemy in self.enemies:
-            enemy.draw_health_bar(self.screen)  # Draw health bar for each enemy
+            enemy.draw_health_bar(self.screen)  # Draws health bar for each enemy
         
 
         if self.game_over:
             self.draw_game_over_screen()
-            #soundtrack_path1 = os.path.join("undertale.mp3")
-            #pygame.mixer.music.stop()  # Stop the current music
-            #pygame.mixer.music.load("undertale.mp3")  # Load a new track
-            #pygame.mixer.music.play(-1)
 
         pygame.display.flip()
        
@@ -222,23 +217,23 @@ class Game:
                     x = app.WIDTH + app.SPAWN_MARGIN
                     y = random.randint(0, app.HEIGHT)
 
-                enemy_type = random.choice(list(self.assets["enemies"].keys()))
-                enemy = Enemy(x, y, enemy_type, self.assets["enemies"])
+                enemy_type = random.choice(list(self.assets["enemies"].keys())) # picks out random png of enemy
+                enemy = Enemy(x, y, enemy_type, self.assets["enemies"]) # spawns them in random location out of view
             
                 self.enemies.append(enemy)
 
     def check_player_enemy_collisions(self):
         collided = False
         for enemy in self.enemies:
-            if enemy.rect.colliderect(self.player.rect):
+            if enemy.rect.colliderect(self.player.rect): #checking if collison with player and enemy happens
                 collided = True
                 break
 
-        if collided:
-            self.player.take_damage(1)
+        if collided: # when colliding is true what happens
+            self.player.take_damage(1)# player drops hp
             px, py = self.player.x, self.player.y
             for enemy in self.enemies:
-                enemy.set_knockback(px, py, app.PUSHBACK_DISTANCE)
+                enemy.set_knockback(px, py, app.PUSHBACK_DISTANCE) # sets the push back factor
     
     def draw_game_over_screen(self):
         
@@ -262,19 +257,19 @@ class Game:
         if not self.enemies:
             return None
         nearest = None
-        min_dist = float('inf')
+        min_dist = float('inf')#sets a large number; so any other distances will be smaller than it.
         px, py = self.player.x, self.player.y
         for enemy in self.enemies:
             dist = math.sqrt((enemy.x - px)**2 + (enemy.y - py)**2)
-            if dist < min_dist:
+            if dist < min_dist: #so if the distance is within range; fire there
                 min_dist = dist
                 nearest = enemy
-        return nearest
+        return nearest # send back variable with current value
 
         
     def check_bullet_enemy_collisions(self):
         for bullet in self.player.bullets:
-            for enemy in self.enemies:
+            for enemy in self.enemies: #enemies on screen
                 if bullet.rect.colliderect(enemy.rect):
                     enemy.hp -= self.player.bullet_damage  # Decrease enemy's health
                     if enemy.hp <= 0:  # Remove enemy if health is zero
@@ -290,19 +285,19 @@ class Game:
     def check_player_coin_collisions(self):
         coins_collected = []
         for coin in self.coins:
-            if coin.rect.colliderect(self.player.rect):
-                coins_collected.append(coin)
+            if coin.rect.colliderect(self.player.rect): # schecking if collisio with player happens
+                coins_collected.append(coin) # makes coin disapper
                 self.player.xp += 1
 
         for c in coins_collected:
             if c in self.coins:
                 self.coins.remove(c) 
     
-    def increase_difficulty(self):
+    def increase_difficulty(self): # level up for monsters
         if self.player.level == self.checkpoint:
-            self.enemies_per_spawn += 1
-            self.checkpoint += 2
-            self.enemy_spawn_interval = max(1, self.enemy_spawn_interval - 1)
+            self.enemies_per_spawn += 1 # increase amount of enemies per spawn
+            self.checkpoint += 2 # pushes back threshold of enemy level up
+            self.enemy_spawn_interval = max(1, self.enemy_spawn_interval - 1) # cant go below 0
             for enemy in self.enemies:
                 enemy.max_hp += 1  # Increase max_hp for existing enemies
                 enemy.hp = enemy.max_hp

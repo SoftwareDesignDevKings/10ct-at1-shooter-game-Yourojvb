@@ -20,8 +20,8 @@ PLAYER_SCALE_FACTOR = 2
 FLOOR_TILE_SCALE_FACTOR = 2
 HEALTH_SCALE_FACTOR = 3
 
-PUSHBACK_DISTANCE = 80
-ENEMY_KNOCKBACK_SPEED = 5
+PUSHBACK_DISTANCE = 200
+ENEMY_KNOCKBACK_SPEED = 20
 
 # --------------------------------------------------------------------------
 #                       ASSET LOADING FUNCTIONS
@@ -60,9 +60,11 @@ def load_assets():
 
     # Enemies
     assets["enemies"] = {
-        "orc":    load_frames("orc",    4, scale_factor=ENEMY_SCALE_FACTOR),
+        "orc":  load_frames("orc",    4, scale_factor=ENEMY_SCALE_FACTOR),
         "undead": load_frames("undead", 4, scale_factor=ENEMY_SCALE_FACTOR),
         "demon":  load_frames("demon",  4, scale_factor=ENEMY_SCALE_FACTOR),
+        "frame": load_frames("frame", 10, scale_factor=0.25), #new enemy type 
+        
     }
 
     # Player
@@ -73,6 +75,8 @@ def load_assets():
 
     # Floor tiles
     assets["floor_tiles"] = load_floor_tiles()
+
+
 
     # Health images
     assets["health"] = load_frames("health", 6, scale_factor=HEALTH_SCALE_FACTOR)

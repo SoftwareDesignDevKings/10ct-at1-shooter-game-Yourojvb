@@ -8,6 +8,11 @@ class Enemy:
         self.y = y
         self.speed = speed
 
+        self.type = enemy_type
+        self.speed = random.randint(1, 3) # adds speed
+        self.hp = random.randint(1, 3) #differenciates the hp for enemies
+        self.max_hp = self.hp
+
         self.frames = enemy_assets[enemy_type]
         self.frame_index = 0
         self.animation_timer = 0
@@ -17,18 +22,22 @@ class Enemy:
         
         self.enemy_type = enemy_type 
         self.facing_left = False
+
+        self.current_frame = 0
+        self.frame_delay = 100 
+        self.last_update = pygame.time.get_ticks()
         
         self.knockback_dist_remaining = 0
         self.knockback_dx = 0
         self.knockback_dy = 0
-        self.hp = random.randint(2, 6)
-
-    def enemies_hp_hit(self,hp):
-        self.hp -= damage
-        if self.hp <= 0:
-            enemies.remove(self)
+       
 
     def update(self, player):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_delay:
+            self.last_update = now
+            self.current_frame = (self.current_frame + 1) % len(self.frames)
+
         if self.knockback_dist_remaining > 0:
             self.apply_knockback()
         else:
@@ -78,11 +87,14 @@ class Enemy:
         
 
     def draw(self, surface):
+        frame = self.frames[self.current_frame]
         if self.facing_left:
+            frame = pygame.transform.flip(frame, True, False)
             flipped_image = pygame.transform.flip(self.image, True, False)
             surface.blit(flipped_image, self.rect)
         else:
             surface.blit(self.image, self.rect)
+     
 
   
     def set_knockback(self, px, py, dist):
@@ -93,3 +105,22 @@ class Enemy:
             self.knockback_dx = dx / length
             self.knockback_dy = dy / length
             self.knockback_dist_remaining = dist
+
+    def draw_health_bar(self, surface):
+        # Calculate dimensions
+        bar_width = self.rect.width
+        bar_height = 5
+        health_ratio = self.hp / self.max_hp
+        health_bar_width = int(bar_width * health_ratio)
+
+        # Define colors
+        bar_background_color = (255, 0, 0)  # Red for the background
+        bar_foreground_color = (0, 255, 0)  # Green for the current health
+
+        # Draw the health bar background
+        bar_x = self.rect.x
+        bar_y = self.rect.y - bar_height - 1  # Position above the enemy
+        pygame.draw.rect(surface, bar_background_color, (bar_x, bar_y, bar_width, bar_height))
+
+        # Draw the current health bar
+        pygame.draw.rect(surface, bar_foreground_color, (bar_x, bar_y, health_bar_width, bar_height))

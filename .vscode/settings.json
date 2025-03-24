@@ -1,0 +1,4 @@
+{
+    "workbench.editor.alwaysShowEditorActions": true,
+    "files.autoSave": "onFocusChange"
+}

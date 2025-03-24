@@ -36,8 +36,8 @@ class Player:
         self.shoot_timer = 0
         self.bullets = []
 
-        self.font_small = pygame.font.Font(None, 24) 
-        self.font_large = pygame.font.Font(None, 36)
+        self.font_small = pygame.font.Font(None, 36) #Used to render in the words on the screen
+        self.font_large = pygame.font.Font(None, 50)
        
         self.xp_to_next_level = 2
 
@@ -156,7 +156,7 @@ class Player:
             level_up_surf = self.font_large.render("You leveled up!", True, (200, 100, 00)) #the apperence of the level up
             screen.blit(level_up_surf, (app.WIDTH // 2 - level_up_surf.get_width() // 2, 100))
 
-            options = [
+            options = [ #these are the things that are going to pop up
             "Press either 1, 2 or 3",
             "1. Increase bullet count",
 
@@ -200,8 +200,7 @@ class Player:
                         elif event.key == pygame.K_6:
                             self.health += 1
                             choosing = False
- 
-
+                
                 pygame.display.update()
 
         

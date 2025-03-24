@@ -11,7 +11,7 @@ class Player:
 
         self.level = 1
         self.xp = 0
-        self.xp_to_next_level = 2
+        self.xp_to_next_level = 2 #threshold to level up
         self.shoot_delay = shoot_delay
 
         self.speed = app.PLAYER_SPEED
@@ -81,7 +81,7 @@ class Player:
         for bullet in self.bullets:
             bullet.update()
             if bullet.y < 0 or bullet.y > app.HEIGHT or bullet.x < 0 or bullet.x > app.WIDTH:
-                self.bullets.remove(bullet)
+                self.bullets.remove(bullet) # this deals with bullets flying off the screen to not use use space.
 
         self.animation_timer += 1
         if self.animation_timer >= self.animation_speed:
@@ -107,7 +107,7 @@ class Player:
         self.health = max(0, self.health - amount)
     
     def shoot_toward_position(self, tx, ty):
-        if self.shoot_timer >= self.shoot_cooldown:
+        if self.shoot_timer >= self.shoot_cooldown: #so there is an interval of firing
             return
 
         dx = tx - self.x
@@ -173,8 +173,8 @@ class Player:
 
         ]
             for i, option in enumerate(options):
-                level_up_surf = self.font_small.render(option, True, (100, 240, 20))
-                screen.blit(level_up_surf, (app.WIDTH // 2 - level_up_surf.get_width() // 2, 200 + i * 30))
+                level_up_surf = self.font_small.render(option, True, (100, 240, 20)) #colour and size
+                screen.blit(level_up_surf, (app.WIDTH // 2 - level_up_surf.get_width() // 2, 200 + i * 30)) #covering the whole screen
 #able to stop game so player can choose
                 pygame.display.update()
 
@@ -184,7 +184,7 @@ class Player:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_1: #if 1 is pressed and so on
                             self.bullet_count += 1
-                            choosing = False # dosent constantly repeat leveling up
+                            choosing = False # unpauses the game
                         elif event.key == pygame.K_2:
                             self.bullet_size += 1
                             choosing = False
@@ -204,7 +204,7 @@ class Player:
                 pygame.display.update()
 
         
-            self.level_up = False
+            self.level_up = False #stops the process
             self.xp -= self.xp_to_next_level # resets the xp back to 0
             self.level += 1 #shows the player where they are at
             self.xp_to_next_level = int(self.xp_to_next_level * 1.5) #increase difficutly in reaching level

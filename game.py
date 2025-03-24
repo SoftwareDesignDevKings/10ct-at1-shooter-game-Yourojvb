@@ -286,7 +286,7 @@ class Game:
         coins_collected = []
         for coin in self.coins:
             if coin.rect.colliderect(self.player.rect): # schecking if collisio with player happens
-                coins_collected.append(coin) # makes coin disapper
+                coins_collected.append(coin) # makes coin disapear
                 self.player.xp += 1
 
         for c in coins_collected:

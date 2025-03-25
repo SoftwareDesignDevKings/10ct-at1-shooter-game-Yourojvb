@@ -9,10 +9,9 @@ class Enemy:
         self.speed = speed
 
         self.type = enemy_type
-        self.speed = random.randint(1, 3) # adds speed
-        self.hp = random.randint(1, 3) #differenciates the hp for enemies
-        self.max_hp = self.hp
-
+        self.speed = random.randint(1, 3) #adds speed
+        self.hp = enemy_hp #random.randint(1, 3) #differenciates the hp for enemies
+        self.max_hp = enemy_hp
         self.frames = enemy_assets[enemy_type]
         self.frame_index = 0
         self.animation_timer = 0

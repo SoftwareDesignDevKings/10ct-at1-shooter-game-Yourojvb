@@ -32,8 +32,9 @@ class Game:
         pygame.mixer.music.play(-1)  
         pygame.mixer.music.set_volume(0.5)
 
-        self.enemy_max_hp = random.randint(1, 3)  # Set enemy max HP
-        self.enemy = Enemy(self.enemy_max_hp)  # Initialize enemy with HP
+        
+        
+
 
         self.xp_to_next_level = 3
         self.level_up_menu = False
@@ -84,8 +85,7 @@ class Game:
         pygame.mixer.music.set_volume(0.5)
     
     def set_enemy_hp(self, hp):
-        self.enemy_max_hp = self.enemy_hp
-        self.enemy.hp = enemy_max_hp
+        self.enemy_max_hp = hp
         
 
     def create_random_background(self, width, height, floor_tiles):
@@ -305,7 +305,7 @@ class Game:
             self.enemy_spawn_interval = max(1, self.enemy_spawn_interval - 1) # cant go below 0
             for enemy in self.enemies:
                 self.enemy.max_hp += 1  # Increase max_hp for existing enemies
-                self.enemy_hp = enemy.max_hp
+                enemy.current_hp = enemy.max_hp
                 
     
     #def check_shoot_delay(self):

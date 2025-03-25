@@ -3,15 +3,18 @@ import app
 import math
 import random
 class Enemy:
-    def __init__(self, x, y, enemy_type, enemy_assets, speed=app.DEFAULT_ENEMY_SPEED):
+    def __init__(self, x, y,max_hp, enemy_type, enemy_assets, speed=app.DEFAULT_ENEMY_SPEED):
         self.x = x
         self.y = y
         self.speed = speed
+        self.max_hp = max_hp
+        self.current_hp = max_hp
 
         self.type = enemy_type
         self.speed = random.randint(1, 3) #adds speed
-        self.hp = enemy_hp #random.randint(1, 3) #differenciates the hp for enemies
-        self.max_hp = enemy_hp
+        self.hp = random.randint(1, 3) #differenciates the hp for enemies
+        self.max_hp = self.hp
+
         self.frames = enemy_assets[enemy_type]
         self.frame_index = 0
         self.animation_timer = 0

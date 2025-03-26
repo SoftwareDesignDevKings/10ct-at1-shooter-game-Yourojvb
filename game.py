@@ -32,7 +32,9 @@ class Game:
         pygame.mixer.music.play(-1)  
         pygame.mixer.music.set_volume(0.5)
 
-        
+        self.enemy_max_hp = random.randint(1,3)
+
+
         
 
 
@@ -69,11 +71,13 @@ class Game:
         self.enemy_spawn_timer = 60
         self.enemies_per_spawn = 1
         self.coins = []
-        self.player.checkpoint = 2
+        self.checkpoint = 5
         
         self.bullet_speed = 10
         self.bullet_size = 10
         self.bullet_count = 1
+        
+
 
         self.game_over = False
         self.level_up_menu = False
@@ -83,11 +87,7 @@ class Game:
         pygame.mixer.music.load(soundtrack_path)
         pygame.mixer.music.play(-1)  
         pygame.mixer.music.set_volume(0.5)
-    
-    def set_enemy_hp(self, hp):
-        self.enemy_max_hp = hp
-        
-
+ 
     def create_random_background(self, width, height, floor_tiles):
         bg = pygame.Surface((width, height))
         tile_w = floor_tiles[0].get_width()
@@ -115,8 +115,10 @@ class Game:
 
     def handle_events(self):
         for event in pygame.event.get():
+            
             if event.type == pygame.QUIT:
                 self.running = False
+            
             elif event.type == pygame.KEYDOWN:
                 if self.game_over:
                     if event.key == pygame.K_r:
@@ -146,8 +148,6 @@ class Game:
 
         for enemy in self.enemies:
             enemy.update(self.player)
-        
-          
 
         self.check_player_enemy_collisions()
         self.check_bullet_enemy_collisions()
@@ -223,8 +223,9 @@ class Game:
                     y = random.randint(0, app.HEIGHT)
 
                 enemy_type = random.choice(list(self.assets["enemies"].keys())) # picks out random png of enemy
-                enemy = Enemy(x, y, enemy_type, self.assets["enemies"]) # spawns them in random location out of view
-            
+                enemy = Enemy(x, y, enemy_type, self.assets["enemies"]) # enemy is spawned with enemy type 
+                enemy.max_hp = self.enemy_max_hp  # Set the enemy's max_hp
+                enemy.hp = enemy.max_hp # is makes the current hp to max hp
                 self.enemies.append(enemy)
 
     def check_player_enemy_collisions(self):
@@ -297,29 +298,18 @@ class Game:
         for c in coins_collected:
             if c in self.coins:
                 self.coins.remove(c) 
-    
-    def increase_difficulty(self): # level up for monsters
+    def increase_difficulty(self):
         if self.player.level == self.checkpoint:
-            self.enemies_per_spawn += 1 # increase amount of enemies per spawn
-            self.checkpoint += 2 # pushes back threshold of enemy level up
-            self.enemy_spawn_interval = max(1, self.enemy_spawn_interval - 1) # cant go below 0
+            self.enemies_per_spawn += 1  # Increase the number of enemies per spawn
+            self.checkpoint += 2  # Push back the threshold for the next difficulty increase
+            self.enemy_spawn_interval = max(1, self.enemy_spawn_interval - 1)  # Can't go below 1
+            self.enemy_max_hp += 1  # Increase the default max_hp for new enemies
             for enemy in self.enemies:
-                self.enemy.max_hp += 1  # Increase max_hp for existing enemies
-                enemy.current_hp = enemy.max_hp
+                enemy.max_hp += 1  # Increase max_hp for existing enemies
+                enemy.hp = enemy.max_hp  # Reset current HP to the new max HP
                 
     
-    #def check_shoot_delay(self):
-        #if self.shoot_delay > 450: #200
-            #self.shoot_delay = 450 #200
-            #shoot_delay_surf = self.font_large.render("You can't fire this fast!", True , (200,50,25))
-            #self.player.level_up = True
-    
-            
-            #self.level_up_menu()
-            #self.player.level += 1
-            #self.player.xp_to_next_level = int(self.player.xp_to_next_level * 1.5)
-            #self.player.xp = 0
-    
+   
 
 
             

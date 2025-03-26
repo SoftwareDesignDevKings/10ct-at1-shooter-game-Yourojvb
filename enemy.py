@@ -3,17 +3,17 @@ import app
 import math
 import random
 class Enemy:
-    def __init__(self, x, y,max_hp, enemy_type, enemy_assets, speed=app.DEFAULT_ENEMY_SPEED):
+    def __init__(self, x, y, enemy_type, enemy_assets, speed=app.DEFAULT_ENEMY_SPEED):
         self.x = x
         self.y = y
         self.speed = speed
-        self.max_hp = max_hp
-        self.current_hp = max_hp
+
 
         self.type = enemy_type
         self.speed = random.randint(1, 3) #adds speed
-        self.hp = random.randint(1, 3) #differenciates the hp for enemies
-        self.max_hp = self.hp
+        max_hp = 1 #random.randint(1, 3) #differenciates the hp for enemies
+        self.max_hp = max_hp
+        self.hp = self.max_hp
 
         self.frames = enemy_assets[enemy_type]
         self.frame_index = 0
@@ -126,3 +126,9 @@ class Enemy:
 
         # Draw the current health bar
         pygame.draw.rect(surface, bar_foreground_color, (bar_x, bar_y, health_bar_width, bar_height))
+    def max_hp(self):
+        self.max_hp = random.randint(1,3)
+        self.hp = self.max_hp
+    def handle_event(self):
+            self.max_hp += 2
+            self.hp = self.max_hp

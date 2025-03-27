@@ -60,7 +60,7 @@ class Game:
         self.enemies = []
         self.enemy_spawn_timer = 1
         self.enemy_spawn_interval = 60
-        self.enemies_per_spawn = 1
+        self.enemies_per_spawn = 100
 
         self.reset_game()
 
@@ -301,7 +301,7 @@ class Game:
     def increase_difficulty(self):
         if self.player.level == self.checkpoint:
             self.enemies_per_spawn += 1  # Increase the number of enemies per spawn
-            self.checkpoint += 2  # Push back the threshold for the next difficulty increase
+            self.checkpoint += 5  # Push back the threshold for the next difficulty increase
             self.enemy_spawn_interval = max(1, self.enemy_spawn_interval - 1)  # Can't go below 1
             self.enemy_max_hp += 1  # Increase the default max_hp for new enemies
             for enemy in self.enemies:

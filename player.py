@@ -157,7 +157,7 @@ class Player:
             screen.blit(level_up_surf, (app.WIDTH // 2 - level_up_surf.get_width() // 2, 100))
 
             options = [ #these are the things that are going to pop up
-            "Press either 1, 2 or 3",
+            "Press either of these keys to recieve the following upgrades",
             "1. Increase bullet count",
 
             "2. Increase bullet size",

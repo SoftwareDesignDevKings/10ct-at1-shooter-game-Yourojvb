@@ -70,7 +70,7 @@ class Player:
         self.y = max(0, min(self.y, app.HEIGHT))
         self.rect.center = (self.x, self.y)
 
-       # animation state
+       # determine animation state
         if vel_x != 0 or vel_y != 0:
             self.state = "run"
         else:
@@ -108,7 +108,7 @@ class Player:
             bullet.draw(surface)
 
     def take_damage(self, amount):
-        self.health = max(0, self.health - amount)
+        self.health = max(0, self.health - amount) #reduces player hp
     
     def shoot_toward_position(self, tx, ty):
         if self.shoot_timer >= self.shoot_cooldown: #so there is an interval of firing
@@ -127,7 +127,7 @@ class Player:
         base_angle = math.atan2(vy, vx)
         mid = (self.bullet_count - 1) / 2
 
-        for i in range(self.bullet_count):
+        for i in range(self.bullet_count): #spacing of the bullet when firing > 1
             offset = i - mid
             spread_radians = math.radians(angle_spread * offset)
             angle = base_angle + spread_radians
@@ -187,7 +187,7 @@ class Player:
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_1: #if 1 is pressed and so on
-                            self.bullet_count += 1
+                            self.bullet_count += 1 #adds or decreases allocated status
                             choosing = False # unpauses the game
                         elif event.key == pygame.K_2:
                             self.bullet_size += 1

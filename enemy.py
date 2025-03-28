@@ -47,6 +47,7 @@ class Enemy:
             self.animate()
    
     def move_toward_player(self, player):
+        #Calculates direction vector toward player
         dx = player.x - self.x
         dy = player.y - self.y
         dist = (dx**2 + dy**2) ** 0.5
@@ -55,6 +56,7 @@ class Enemy:
             self.x += (dx / dist) * self.speed
             self.y += (dy / dist) * self.speed
         
+        # Update enemy position
         self.facing_left = dx < 0
         
 

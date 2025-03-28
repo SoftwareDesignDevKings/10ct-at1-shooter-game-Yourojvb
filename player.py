@@ -45,33 +45,37 @@ class Player:
     
     def handle_input(self):
         keys = pygame.key.get_pressed()
-
+        #velocity in x, y direction
         vel_x, vel_y = 0, 0
  
        
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            #Move character left
             vel_x -= self.speed
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            #Move to right
             vel_x += self.speed
         if keys[pygame.K_UP] or keys[pygame.K_w]:
+            #move up the screen
             vel_y -= self.speed
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            #move down the screen
             vel_y += self.speed
 
         self.x += vel_x
         self.y += vel_y
 
-
+        # Clamp player position to screen bounds
         self.x = max(0, min(self.x, app.WIDTH))
         self.y = max(0, min(self.y, app.HEIGHT))
         self.rect.center = (self.x, self.y)
 
-       
+       # animation state
         if vel_x != 0 or vel_y != 0:
             self.state = "run"
         else:
             self.state = "idle"
-
+        #direction
         if vel_x < 0:
             self.facing_left = True
         elif vel_x > 0:
@@ -136,7 +140,7 @@ class Player:
         self.shoot_timer = 0
 
     def shoot_toward_mouse(self, pos):
-        mx, my = pos 
+        mx, my = pos #m denotes mouse
         self.shoot_toward_position(mx, my)
 
     def shoot_toward_enemy(self, enemy):
@@ -153,7 +157,7 @@ class Player:
             overlay = pygame.Surface((app.WIDTH, app.HEIGHT), pygame.SRCALPHA) #sets within the whole screen
             overlay.fill((0, 0, 0, 180))
             screen.blit(overlay, (0, 0))
-            level_up_surf = self.font_large.render("You leveled up!", True, (200, 100, 00)) #the apperence of the level up
+            level_up_surf = self.font_large.render("You leveled up!", True, (200, 100, 00)) #the prompt of the level up
             screen.blit(level_up_surf, (app.WIDTH // 2 - level_up_surf.get_width() // 2, 100))
 
             options = [ #these are the things that are going to pop up

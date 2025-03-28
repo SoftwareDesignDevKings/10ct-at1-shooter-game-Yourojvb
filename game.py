@@ -137,7 +137,7 @@ class Game:
                 if event.key == pygame.K_SPACE: # stops when space is released
                     self.space_held = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  
+                if event.button == 1:  #left mouse button
                     self.player.shoot_toward_mouse(event.pos)
                 
             

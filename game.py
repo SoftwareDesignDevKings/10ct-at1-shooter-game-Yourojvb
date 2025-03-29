@@ -34,10 +34,6 @@ class Game:
 
         self.enemy_max_hp = random.randint(1,3)
 
-
-        
-
-
         self.xp_to_next_level = 3
         self.level_up_menu = False
         self.last_shot_time = 0 

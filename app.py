@@ -30,29 +30,30 @@ ENEMY_KNOCKBACK_SPEED = 20
 def load_frames(prefix, frame_count, scale_factor=1, folder="assets"):
     frames = []
     for i in range(frame_count):
-        image_path = os.path.join(folder, f"{prefix}_{i}.png")
+        image_path = os.path.join(folder, f"{prefix}_{i}.png") #prefix is file names; 
+        #this is getting the picture
         img = pygame.image.load(image_path).convert_alpha()
 
         if scale_factor != 1:
-            w = img.get_width() * scale_factor
+            w = img.get_width() * scale_factor #re-scales the img
             h = img.get_height() * scale_factor
-            img = pygame.transform.scale(img, (w, h))
+            img = pygame.transform.scale(img, (w, h)) #re-scaled img
 
         frames.append(img)
     return frames
 
 def load_floor_tiles(folder="assets"):
-    floor_tiles = []
+    floor_tiles = [] #creates empty list
     for i in range(8):
-        path = os.path.join(folder, f"floor_{i}.png")
+        path = os.path.join(folder, f"floor_{i}.png") #goes through the pre-determined imges
         tile = pygame.image.load(path).convert()
 
-        if FLOOR_TILE_SCALE_FACTOR != 1:
+        if FLOOR_TILE_SCALE_FACTOR != 1: #if the scale isnt one
             tw = tile.get_width() * FLOOR_TILE_SCALE_FACTOR
             th = tile.get_height() * FLOOR_TILE_SCALE_FACTOR
             tile = pygame.transform.scale(tile, (tw, th))
 
-        floor_tiles.append(tile)
+        floor_tiles.append(tile) #brings it into the list of floor tiles
     return floor_tiles
 
 def load_assets():
@@ -80,8 +81,5 @@ def load_assets():
 
     # Health images
     assets["health"] = load_frames("health", 6, scale_factor=HEALTH_SCALE_FACTOR)
-
-    # Example coin image (uncomment if you have coin frames / images)
-    # assets["coin"] = pygame.image.load(os.path.join("assets", "coin.png")).convert_alpha()
 
     return assets

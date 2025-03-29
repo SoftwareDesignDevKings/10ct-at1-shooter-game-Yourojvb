@@ -178,12 +178,13 @@ class Player:
         ]
             for i, option in enumerate(options):
                 level_up_surf = self.font_small.render(option, True, (100, 240, 20)) #colour and size
-                screen.blit(level_up_surf, (app.WIDTH // 2 - level_up_surf.get_width() // 2, 200 + i * 30)) #covering the whole screen
-#able to stop game so player can choose
+                screen.blit(level_up_surf, (app.WIDTH // 2 - level_up_surf.get_width() // 2, 200 + i * 30)) 
+                #covering the whole screen
+               
                 pygame.display.update()
 
             choosing = True
-            while choosing:
+            while choosing: #able to stop game so player can choose
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_1: #if 1 is pressed and so on

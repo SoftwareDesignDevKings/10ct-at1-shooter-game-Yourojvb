@@ -199,14 +199,17 @@ class Game:
         health_img = self.assets["health"][hp]
         self.screen.blit(health_img, (10, 10))
 
-        xp_text_surf = self.font_small.render(f"XP: {self.player.xp}", True, (255, 255, 255)) # the text and colours is assigned to xp_text_surf
+        xp_text_surf = self.font_small.render(f"XP: {self.player.xp}", True, (255, 255, 255)) # the text 
+        #and colours is assigned to xp_text_surf
         self.screen.blit(xp_text_surf, (10, 70)) #blit to summon it onto the screen as the game starts
 
-        level_up_surf = self.font_small.render(f"Lvl: {self.player.level}", True , (200, 100, 50))# text and colours is assigned to level_up_surf
+        level_up_surf = self.font_small.render(f"Lvl: {self.player.level}", True , (200, 100, 50))# text and 
+        #colours is assigned to level_up_surf
         self.screen.blit(level_up_surf, (10, 50))#blit to summon it onto the screen as the game starts
 
-        level_up_rect = self.font_small.render(f"Req Lvl: {self.player.xp_to_next_level}", True, (50, 100,150))# text and colours assigned to level_up_rect
-        self.screen.blit(level_up_rect, (10, 90))
+        level_up_rect = self.font_small.render(f"Req Lvl: {self.player.xp_to_next_level}", True, (50, 100,150))# text and 
+        #colours assigned to level_up_rect
+        self.screen.blit(level_up_rect, (10, 90))#blit to summon it onto the screen as the game starts
 
         for enemy in self.enemies:
             enemy.draw_health_bar(self.screen)  # Draws health bar for each enemy

@@ -27,10 +27,17 @@ class Game:
 
         pygame.mixer.init()
   
-        soundtrack_path = os.path.join("assets", "doom.mp3" ) # Replace with your actual file path
-        pygame.mixer.music.load(soundtrack_path) #play music
+        self.soundtrack_path = os.path.join("assets", "doom.mp3" ) # Replace with your actual file path
+        pygame.mixer.music.load(self.soundtrack_path) #play music
         pygame.mixer.music.play(-1)  
         pygame.mixer.music.set_volume(0.5)
+
+        self.low_hp_soundtrack_path = os.path.join("assets", "low_hp.mp3")  # Replace with your actual file path
+        pygame.mixer.music.load(self.low_hp_soundtrack_path)  # Load the default soundtrack
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.5)
+
+        self.low_hp_soundtrack_loaded = False
 
         self.enemy_max_hp = random.randint(1,3)
 
@@ -158,6 +165,18 @@ class Game:
                 self.last_shot_time = current_time # assigns last_shot_time with current time
                 
 
+        if self.player.health == 1 and not self.low_hp_soundtrack_loaded:
+            pygame.mixer.music.stop()  # Stop the current soundtrack
+            pygame.mixer.music.load(self.low_hp_soundtrack_path)  # Load the low HP soundtrack
+            pygame.mixer.music.play(-1)  # play the new soundtrack in a loop
+            pygame.mixer.music.set_volume(0.5)
+            self.low_hp_soundtrack_loaded = True  # Ensure it doesn't reload repeatedly
+        elif self.player.health > 1 and self.low_hp_soundtrack_loaded:
+            pygame.mixer.music.stop()  # stop the low HP soundtrack
+            pygame.mixer.music.load(self.soundtrack_path)  # reload the default soundtrack
+            pygame.mixer.music.play(-1)
+            pygame.mixer.music.set_volume(0.5)
+            self.low_hp_soundtrack_loaded = False  # reset the flag
         if self.player.health <= 0:
             self.game_over = True
         

@@ -71,6 +71,7 @@ class Game:
     def reset_game(self): #so when game restarts; player dosent keep any previous abilities
         self.player = Player(app.WIDTH // 2, app.HEIGHT // 2, self.assets, shoot_delay=self.shoot_delay)
         self.enemies = []
+        self.enemy_max_hp = random.randint(1,3)
         self.enemy_spawn_timer = 60
         self.enemies_per_spawn = 1
         self.coins = []
